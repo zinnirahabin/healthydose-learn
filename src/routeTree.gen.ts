@@ -9,38 +9,140 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AchievementsRouteImport } from './routes/achievements'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProgramProgramIdRouteImport } from './routes/program.$programId'
+import { Route as ProgramProgramIdQuizRouteImport } from './routes/program.$programId.quiz'
+import { Route as ProgramProgramIdLessonLessonIdRouteImport } from './routes/program.$programId.lesson.$lessonId'
 
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AchievementsRoute = AchievementsRouteImport.update({
+  id: '/achievements',
+  path: '/achievements',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProgramProgramIdRoute = ProgramProgramIdRouteImport.update({
+  id: '/program/$programId',
+  path: '/program/$programId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgramProgramIdQuizRoute = ProgramProgramIdQuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
+  getParentRoute: () => ProgramProgramIdRoute,
+} as any)
+const ProgramProgramIdLessonLessonIdRoute =
+  ProgramProgramIdLessonLessonIdRouteImport.update({
+    id: '/lesson/$lessonId',
+    path: '/lesson/$lessonId',
+    getParentRoute: () => ProgramProgramIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/achievements': typeof AchievementsRoute
+  '/dashboard': typeof DashboardRoute
+  '/profile': typeof ProfileRoute
+  '/program/$programId': typeof ProgramProgramIdRouteWithChildren
+  '/program/$programId/quiz': typeof ProgramProgramIdQuizRoute
+  '/program/$programId/lesson/$lessonId': typeof ProgramProgramIdLessonLessonIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/achievements': typeof AchievementsRoute
+  '/dashboard': typeof DashboardRoute
+  '/profile': typeof ProfileRoute
+  '/program/$programId': typeof ProgramProgramIdRouteWithChildren
+  '/program/$programId/quiz': typeof ProgramProgramIdQuizRoute
+  '/program/$programId/lesson/$lessonId': typeof ProgramProgramIdLessonLessonIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/achievements': typeof AchievementsRoute
+  '/dashboard': typeof DashboardRoute
+  '/profile': typeof ProfileRoute
+  '/program/$programId': typeof ProgramProgramIdRouteWithChildren
+  '/program/$programId/quiz': typeof ProgramProgramIdQuizRoute
+  '/program/$programId/lesson/$lessonId': typeof ProgramProgramIdLessonLessonIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/achievements'
+    | '/dashboard'
+    | '/profile'
+    | '/program/$programId'
+    | '/program/$programId/quiz'
+    | '/program/$programId/lesson/$lessonId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/achievements'
+    | '/dashboard'
+    | '/profile'
+    | '/program/$programId'
+    | '/program/$programId/quiz'
+    | '/program/$programId/lesson/$lessonId'
+  id:
+    | '__root__'
+    | '/'
+    | '/achievements'
+    | '/dashboard'
+    | '/profile'
+    | '/program/$programId'
+    | '/program/$programId/quiz'
+    | '/program/$programId/lesson/$lessonId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AchievementsRoute: typeof AchievementsRoute
+  DashboardRoute: typeof DashboardRoute
+  ProfileRoute: typeof ProfileRoute
+  ProgramProgramIdRoute: typeof ProgramProgramIdRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/achievements': {
+      id: '/achievements'
+      path: '/achievements'
+      fullPath: '/achievements'
+      preLoaderRoute: typeof AchievementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +150,49 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/program/$programId': {
+      id: '/program/$programId'
+      path: '/program/$programId'
+      fullPath: '/program/$programId'
+      preLoaderRoute: typeof ProgramProgramIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/program/$programId/quiz': {
+      id: '/program/$programId/quiz'
+      path: '/quiz'
+      fullPath: '/program/$programId/quiz'
+      preLoaderRoute: typeof ProgramProgramIdQuizRouteImport
+      parentRoute: typeof ProgramProgramIdRoute
+    }
+    '/program/$programId/lesson/$lessonId': {
+      id: '/program/$programId/lesson/$lessonId'
+      path: '/lesson/$lessonId'
+      fullPath: '/program/$programId/lesson/$lessonId'
+      preLoaderRoute: typeof ProgramProgramIdLessonLessonIdRouteImport
+      parentRoute: typeof ProgramProgramIdRoute
+    }
   }
 }
 
+interface ProgramProgramIdRouteChildren {
+  ProgramProgramIdQuizRoute: typeof ProgramProgramIdQuizRoute
+  ProgramProgramIdLessonLessonIdRoute: typeof ProgramProgramIdLessonLessonIdRoute
+}
+
+const ProgramProgramIdRouteChildren: ProgramProgramIdRouteChildren = {
+  ProgramProgramIdQuizRoute: ProgramProgramIdQuizRoute,
+  ProgramProgramIdLessonLessonIdRoute: ProgramProgramIdLessonLessonIdRoute,
+}
+
+const ProgramProgramIdRouteWithChildren =
+  ProgramProgramIdRoute._addFileChildren(ProgramProgramIdRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AchievementsRoute: AchievementsRoute,
+  DashboardRoute: DashboardRoute,
+  ProfileRoute: ProfileRoute,
+  ProgramProgramIdRoute: ProgramProgramIdRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
