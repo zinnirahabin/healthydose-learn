@@ -121,7 +121,7 @@ function LessonPage() {
                 <div className="font-display font-bold">{program.title}</div>
               </div>
               <div className="space-y-1">
-                {program.lessons.map((l, i) => {
+                {program.lessons.map((l: typeof program.lessons[number], i: number) => {
                   const active = l.id === lesson.id;
                   return (
                     <Link

@@ -70,7 +70,7 @@ function ProgramDetail() {
               <span className="text-sm text-muted-foreground">{completedCount} of {program.lessons.length} complete</span>
             </div>
             <div className="space-y-3">
-              {program.lessons.map((lesson, i) => {
+              {program.lessons.map((lesson: typeof program.lessons[number], i: number) => {
                 const done = i < completedCount;
                 const current = i === completedCount;
                 return (
