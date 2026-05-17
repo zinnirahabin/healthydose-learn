@@ -4,6 +4,10 @@ import { Sparkles, Mail, Lock, ArrowRight, BookOpen, Trophy, Heart } from "lucid
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+
+const DEMO_EMAIL = "student@gmail.com";
+const DEMO_PASSWORD = "student1234";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -18,9 +22,20 @@ export const Route = createFileRoute("/")({
 function LoginPage() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"login" | "register">("login");
+  const [email, setEmail] = useState(DEMO_EMAIL);
+  const [password, setPassword] = useState(DEMO_PASSWORD);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (mode === "login") {
+      if (email.trim().toLowerCase() !== DEMO_EMAIL || password !== DEMO_PASSWORD) {
+        setError("Incorrect email or password.");
+        toast.error("Incorrect email or password.");
+        return;
+      }
+    }
+    setError(null);
     navigate({ to: "/dashboard" });
   };
 
@@ -105,15 +120,16 @@ function LoginPage() {
               <Label htmlFor="email">Email</Label>
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input id="email" type="email" placeholder="you@university.edu" defaultValue="alex.morgan@university.edu" className="h-12 rounded-xl pl-11" required />
+                <Input id="email" type="email" placeholder="you@university.edu" value={email} onChange={(e) => { setEmail(e.target.value); setError(null); }} className="h-12 rounded-xl pl-11" required />
               </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input id="password" type="password" placeholder="••••••••" defaultValue="demo1234" className="h-12 rounded-xl pl-11" required />
+                <Input id="password" type="password" placeholder="••••••••" value={password} onChange={(e) => { setPassword(e.target.value); setError(null); }} className="h-12 rounded-xl pl-11" required />
               </div>
+              {error && <p className="text-sm font-medium text-destructive">{error}</p>}
             </div>
 
             {mode === "login" && (
