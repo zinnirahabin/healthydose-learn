@@ -4,6 +4,10 @@ import { Sparkles, Mail, Lock, ArrowRight, BookOpen, Trophy, Heart } from "lucid
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+
+const DEMO_EMAIL = "student@gmail.com";
+const DEMO_PASSWORD = "student1234";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -18,9 +22,20 @@ export const Route = createFileRoute("/")({
 function LoginPage() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"login" | "register">("login");
+  const [email, setEmail] = useState(DEMO_EMAIL);
+  const [password, setPassword] = useState(DEMO_PASSWORD);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (mode === "login") {
+      if (email.trim().toLowerCase() !== DEMO_EMAIL || password !== DEMO_PASSWORD) {
+        setError("Incorrect email or password.");
+        toast.error("Incorrect email or password.");
+        return;
+      }
+    }
+    setError(null);
     navigate({ to: "/dashboard" });
   };
 
