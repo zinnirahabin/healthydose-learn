@@ -130,7 +130,6 @@ function LoginPage() {
                 <Input id="password" type="password" placeholder="••••••••" value={password} onChange={(e) => { setPassword(e.target.value); setError(null); }} className="h-12 rounded-xl pl-11" required />
               </div>
               {error && <p className="text-sm font-medium text-destructive">{error}</p>}
-              </div>
             </div>
 
             {mode === "login" && (
