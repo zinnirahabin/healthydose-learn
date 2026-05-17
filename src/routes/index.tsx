@@ -120,14 +120,16 @@ function LoginPage() {
               <Label htmlFor="email">Email</Label>
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input id="email" type="email" placeholder="you@university.edu" defaultValue="alex.morgan@university.edu" className="h-12 rounded-xl pl-11" required />
+                <Input id="email" type="email" placeholder="you@university.edu" value={email} onChange={(e) => { setEmail(e.target.value); setError(null); }} className="h-12 rounded-xl pl-11" required />
               </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input id="password" type="password" placeholder="••••••••" defaultValue="demo1234" className="h-12 rounded-xl pl-11" required />
+                <Input id="password" type="password" placeholder="••••••••" value={password} onChange={(e) => { setPassword(e.target.value); setError(null); }} className="h-12 rounded-xl pl-11" required />
+              </div>
+              {error && <p className="text-sm font-medium text-destructive">{error}</p>}
               </div>
             </div>
 
